@@ -441,6 +441,7 @@ var (
 	bootClasspathTag        = dependencyTag{name: "bootclasspath", runtimeLinked: true}
 	systemModulesTag        = dependencyTag{name: "system modules", runtimeLinked: true}
 	frameworkResTag         = dependencyTag{name: "framework-res"}
+	vendorResTag            = dependencyTag{name: "com.evervolv.platform-res"}
 	kotlinPluginTag         = dependencyTag{name: "kotlin-plugin", toolchain: true}
 	proguardRaiseTag        = dependencyTag{name: "proguard-raise"}
 	certificateTag          = dependencyTag{name: "certificate"}
@@ -507,6 +508,7 @@ type sdkDep struct {
 	java9Classpath []string
 
 	frameworkResModule string
+	vendorResModule   string
 
 	jars android.Paths
 	aidl android.OptionalPath
@@ -549,6 +551,10 @@ func sdkDeps(ctx android.BottomUpMutatorContext, sdkContext android.SdkContext, 
 	}
 	if sdkDep.systemModules != "" {
 		ctx.AddVariationDependencies(nil, systemModulesTag, sdkDep.systemModules)
+	}
+
+	if ctx.ModuleName() == "com.evervolv.platform-res" {
+		ctx.AddVariationDependencies(nil, frameworkResTag, "framework-res")
 	}
 }
 
