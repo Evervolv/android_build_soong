@@ -112,6 +112,7 @@ def parse_args():
   config["BuildDesc"] = f"{config['DeviceProduct']}-{config['BuildVariant']} " \
                         f"{config['Platform_version_name']} {config['BuildId']} " \
                         f"{config['BuildNumber']} {config['BuildVersionTags']}"
+  config["PlatformDesc"] = config["BuildDesc"]
 
   config["PlatformPreviewSdkFingerprint"] = args.platform_preview_sdk_fingerprint_file.read().strip()
 
@@ -218,7 +219,7 @@ def generate_build_info(args):
       print(f"ro.build.display.id?={config['BuildId']} {config['BuildKeys']}")
   else:
     # Non-user builds should show detailed build information (See build desc above)
-    print(f"ro.build.display.id?={config['BuildDesc']}")
+    print(f"ro.build.display.id?={config['PlatformDesc']}")
   print(f"ro.build.version.incremental={config['BuildNumber']}")
   print(f"ro.build.version.sdk={config['Platform_sdk_version']}")
   print(f"ro.build.version.preview_sdk={config['Platform_preview_sdk_version']}")
